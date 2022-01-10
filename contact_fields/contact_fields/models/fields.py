@@ -9,5 +9,5 @@ class ResInherit(models.Model):
     date_valid_from = fields.Date(string='Date Valid From', required=True)
     date_valid_to = fields.Date(string='Date Valid To', required=True)
 
-    bp = fields.Selection([('register', 'Register'), ('unregister', 'UnRegister')], default='UnRegister')
+#     bp = fields.Selection([('register', 'Register'), ('unregister', 'UnRegister')], default='UnRegister')
 
