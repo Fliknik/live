@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="multi_payments_multi_payments_report" model="report.paperformat">
+            <field name="name">Multi Payments Report</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">0</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">0</field>
+            <field name="dpi">90</field>
+        </record>
+        <report
+            string="Multi Payments Report"
+            id="gate_pass_report_ext"
+            model="multi.payments"
+            report_type="qweb-html"
+            name="multi_payments.multi_payments_report"
+            file="multi_payments.multi_payments_report"
+            paperformat="multi_payments_multi_payments_report"/>
+    </data>
+</odoo>
