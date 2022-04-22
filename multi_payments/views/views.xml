@@ -117,5 +117,19 @@
                 </xpath>
             </field>
         </record>
+
+        <record id="view_account_payment_form_inherits" model="ir.ui.view">
+            <field name="name">view.account.payment.form.inherits</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='ref']" position="after">
+                    <field name="available_partner_bank_ids" invisible="1"/>
+                </xpath>
+
+            </field>
+        </record>
+
     </data>
 </odoo>

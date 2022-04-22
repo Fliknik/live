@@ -192,3 +192,9 @@ class JouenalEntryLinePayExt(models.Model):
             _logger.info (line.id)
             line.name = line.name +" "+line.payments_tree_label
 
+
+class AccountPayment(models.Model):
+    _inherit = 'account.payment'
+
+    available_partner_bank_ids = fields.Many2many('res.partner.bank', string='Available Partner Bank Ids')
+
