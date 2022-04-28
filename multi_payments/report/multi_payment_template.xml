@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="multi_payments_report">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <!-- <t t-call="expense_report.external_layout_purchase_order"> -->
+                <t t-foreach="docs" t-as="o">
+                    <div class="page">
+                        <br class="clear_float" />
+                        <br class="clear_float" />
+                        <br class="clear_float" />
+                        <br class="clear_float" />
+                        <br class="clear_float" />
+                        <br class="clear_float" />
+                        <br class="clear_float" />
+                        <br class="clear_float" />
+                        <style type="text/css">
+                            @media (min-width: 100px) {
+                                .container {
+                                    width: 100%;
+                                }
+                            }
+
+                            @media (min-width: 768px) {
+                                .container {
+                                    width: 100%;
+                                }
+                            }
+
+                            .container {
+                                width: 100%;
+                            }
+
+                            body {
+                                margin: 0px !important;
+                            }
+
+                            body.o_in_iframe {
+                                margin-top: 0px !important;
+                            }
+
+                            .footer {
+                                display: none !important;
+                            }
+
+                            .main_wraper {
+                                width: 1000px;
+                                margin: 0px auto;
+                            }
+
+                            .main_div {
+                                width: 100%;
+                            }
+
+                            .left_div {
+                                width: 50%;
+                                float: left;
+                                font-size: 16px;
+                                font-weight: bold;
+                            }
+
+                            .right_div {
+                                width: 50%;
+                                float: left;
+                                font-size: 13px;
+                            }
+
+                            .center_div {
+                                font-weight: bold;
+                                font-size: 14px;
+                                text-align: center;
+                            }
+
+                            .clear_float {
+                                float: none;
+                                clear: both;
+                                width: 1px;
+                                height: 1px;
+                                display: block;
+                            }
+
+                            table {
+                                border-collapse: collapse;
+                            }
+
+                            th {
+                                background: lightgray;
+                                border-collapse: collapse;
+                                border: 1px solid black;
+                                font-size: 14px;
+                                padding: 5px;
+                                text-align: center;
+                                font-size: 14px;
+                            }
+
+                            td {
+                                border: 1px solid black;
+                                border-collapse: collapse;
+                                text-align: left;
+                                font-size: 14px;
+                                padding: 2px;
+                                text-align: center;
+                            }
+
+                            .margin_top {
+                                margin-top: 50px;
+                            }
+
+                            .left_div_2 {
+                                font-size: 15px;
+                                float: left;
+                                margin-left: 20px;
+                                width: 20%;
+                                border-top: 1px solid;
+                                margin-top: 50px;
+                                text-align: center;
+                                font-weight: bold;
+                            }
+
+                            .right_div_2 {
+                                font-size: 15px;
+                                float: right;
+                                width: 20%;
+                                border-top: 1px solid;
+                                font-weight: bold;
+                                margin-top: 50px;
+                                text-align: center;
+                            }
+
+                            .right_div_3 {
+                                font-size: 15px;
+                                font-weight: bold;
+                                float: right;
+                                width: 20%;
+                                margin-top: 50px;
+                                border-top: 1px solid;
+                                text-align: center;
+                                margin-right: 213px;
+                            }
+
+                            .amount_div {
+                                width: 86%;
+                                display: inline-block;
+                                float: right;
+                                border-bottom: 1px solid black;
+                                min-height: 15px;
+                                font-size: 13px;
+                                font-weight: bold;
+                            }
+
+                            .foot_fix {
+                                position: fixed;
+                                bottom: 0;
+                                width: 1000px;
+                            }
+
+                            .foot_data p {
+                                font-size: 12px;
+                                margin: 5px;
+                            }
+
+                            .div_1 {
+                                float: left;
+                                width: 33%;
+                            }
+                        </style>
+                        <div class="main_wraper">
+                            <!--  <img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)"/> -->
+                            <!--  <t t-foreach="company" t-as="e">
+                                        <p style="width:90%">
+                                           <img t-att-src="'data:image/jpeg;base64,%s' %to_text(e.logo)"/>
+
+                                        </p>
+                                        <p style="margin:0px"><b>
+                                            <span t-esc="e.name"></span>
+                                        </b> </p>
+                                        <h5 style="margin:0px">
+                                            <span t-esc="e.street"></span>
+                                        </h5>
+                                        <h5 style="margin:0px">
+                                            <span t-esc="e.street2">,</span>
+                                            <span t-esc="e.city"></span>
+                                        </h5>
+                                        <h5>Ph:
+                                            <span t-esc="e.phone"></span>
+                                        </h5>
+                                        <h5>Email:
+                                            <span t-esc="e.email"></span>
+                                        </h5>
+                                        <h5 style="margin:0px">Vat No:
+                                            <span t-esc="e.vat"></span>
+                                        </h5>
+                                    </t> -->
+                            <div class="center_div">
+                                <t t-if="o.voucher_type_o =='cpv'">
+                                    <h2 t-attf-style="color:black !important">Cash Payment Voucher</h2>
+                                </t>
+                                <t t-if="o.voucher_type_o=='bpv'">
+                                    <h2 t-attf-style="color:black !important">Bank Payment Voucher</h2>
+                                </t>
+                                 <t t-if="o.voucher_type_i =='crv'">
+                                    <h2 t-attf-style="color:black !important">Cash Receipt Voucher</h2>
+                                </t>
+                                <t t-if="o.voucher_type_o=='brv'">
+                                    <h2 t-attf-style="color:black !important">Bank Receipt Voucher</h2>
+                                </t>
+                            </div>
+                            <br class="clear_float" />
+                            <div class="main_div">
+                                <div class="left_div">
+                                    <p> Date:
+                                        <t t-if="o.date">
+                                            <span t-esc="time.strftime('%d %b %Y',time.strptime(str(o.date),'%Y-%m-%d'))"></span>
+                                        </t>
+                                    </p>
+                                    <p>Reference:
+                                                <span t-esc="o.s_no"></span>
+                                            </p>
+                                    <!-- <p>Invoice Reference:
+                                                <span t-esc="o.reconciled_invoice_ids.name"></span>
+                                            </p> -->
+                                </div>
+                            </div>
+                            <br class="clear_float" />
+                            <table width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Account</th>
+                                        <th>Partner</th>
+                                        <th>Description</th>
+                                        <th>Debit</th>
+                                        <th>Credit</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="totaldebit" t-value="0" />
+                                    <t t-set="totalcredit" t-value="0" />
+                                    <t t-foreach="o.journal_item.line_ids" t-as="d">
+                                        <tr>
+                                            <td>
+                                                <span t-esc="d.account_id.code"></span>
+                                            </td>
+                                            <td>
+                                                <span t-esc="d.account_id.name"></span>
+                                            </td>
+                                            <td>
+                                                <span t-esc="d.partner_id.name"></span>
+                                            </td>
+                                            <td>
+                                                <span t-esc="d.name"></span>
+                                            </td>
+                                            <td>
+                                                <span t-esc="'{0:,.2f}'.format(float(
+                                                            d.debit))"></span>
+                                                <t t-set="totaldebit" t-value="totaldebit + d.debit" />
+                                            </td>
+                                            <td>
+                                                <span t-esc="'{0:,.2f}'.format(float(d.credit))"></span>
+                                                <t t-set="totalcredit" t-value="totalcredit + d.credit" />
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <tr>
+                                        <td style="font-weight:bold;" colspan="4"> Total</td>
+                                        <td style="font-weight:bold">
+                                            <span t-esc="'{0:,.2f}'.format(int(totaldebit))"></span>
+                                        </td>
+                                        <td style="font-weight:bold">
+                                            <span t-esc="'{0:,.2f}'.format(int(totalcredit))"></span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br class="clear_float" />
+                            <p>
+                                <span class="solid" style="font-weight:bold">Amount In Words:</span>
+                                <span class="amount_div" t-esc="number_to_spell(o.amount)" />
+                            </p>
+                            <br class="clear_float" />
+                            <div class="margin_top">
+                                <div class="main_div">
+                                    <div class="left_div_2">
+                                        <span>Voucher Prepared by</span>
+                                    </div>
+                                    <div class="right_div_2">
+                                        <span>Received by</span>
+                                    </div>
+                                    <div class="right_div_3">
+                                        <span>Approved by</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+                <!-- </t> -->
+            </t>
+        </t>
+    </template>
+</odoo>
