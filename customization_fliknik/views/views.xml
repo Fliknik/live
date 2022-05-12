@@ -7,8 +7,26 @@
             <field name="priority">100</field>
             <field type="xml" name="arch">
                 <xpath expr="//field[@name='currency_id']" position="after">
-                    <xpath expr="//page[@name='purchase_delivery_invoice']/group/group/field[@name='picking_type_id']" position="move"/>
+                    <xpath expr="//page[@name='purchase_delivery_invoice']/group/group/field[@name='picking_type_id']"
+                           position="move"/>
                 </xpath>
+            </field>
+        </record>
+
+        <record id="view_order_deliver_form_inherited" model="ir.ui.view">
+            <field name="name">sale.order.inherited</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="model">sale.order</field>
+            <field name="priority">100</field>
+            <field type="xml" name="arch">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="warehouse_id" options="{'no_create': True}" groups="stock.group_stock_multi_warehouses"
+                           force_save="1" />
+                </xpath>
+<!--                <xpath expr="//field[@name='partner_id']" position="after">-->
+<!--                    <xpath expr="//page[@name='purchase_delivery_invoice']/group/group/field[@name='picking_type_id']"-->
+<!--                           position="move"/>-->
+<!--                </xpath>-->
             </field>
         </record>
     </data>
