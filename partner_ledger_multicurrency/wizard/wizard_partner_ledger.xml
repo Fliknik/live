@@ -24,7 +24,8 @@
                         </group>
                         <group>
                             <field name="currency_ids" widget="many2many_tags"  options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
-                            <field name="partner_account" domain="[('user_type_id','in',['Payable','Receivable'])]"  options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+<!--                            <field name="partner_account" domain="[('user_type_id','in',['Payable','Receivable'])]"  options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>-->
+                            <field name="partner_account" options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
                             <field name="initial_bal"/>
                         </group>
                     </group>
