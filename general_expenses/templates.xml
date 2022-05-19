@@ -43,11 +43,13 @@
                 </group>
                 
                 <group  name="group_right">
-                  <field name="journal" required="1" attrs="{'readonly': [('state','=','validate')]}" domain="[('type','in',['general', 'bank', 'cash'])]" options="{'no_create': True,'no_open': True}"/>
+<!--                  <field name="journal" required="1" attrs="{'readonly': [('state','=','validate')]}" domain="[('type','in',['general', 'bank', 'cash'])]" options="{'no_create': True,'no_open': True}"/>-->
+                  <field name="journal" required="1" attrs="{'readonly': [('state','=','validate')]}" domain="[('type','in',['cash'])]" options="{'no_create': True,'no_open': True}"/>
                   <!-- <field name="voucher_type"/> -->
 
                    <!-- context="{'default_type': 'general'}"/> -->
-                  <field name="account" required="1" attrs="{'readonly': [('state','=','validate')]}" domain="[('user_type_id','=','Bank and Cash')]" options="{'no_create': True,'no_open': True}"/>
+<!--                  <field name="account" required="1" attrs="{'readonly': [('state','=','validate')]}" domain="[('user_type_id','=','Bank and Cash')]" options="{'no_create': True,'no_open': True}"/>-->
+                  <field name="account" required="1" attrs="{'readonly': [('state','=','validate')]}" domain="[('user_type_id','=','Cash')]" options="{'no_create': True,'no_open': True}"/>
                   <field name="entry" readonly="1"/>
                   <!-- <field name="current_users" invisible="1"/> -->
                 </group>
