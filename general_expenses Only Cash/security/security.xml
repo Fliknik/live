@@ -1,7 +1,0 @@
-<odoo>
-    <data noupdate="0">
-        <record id="security_group_for_expense" model="res.groups">
-            <field name="name">Security Group For Other Payments</field>
-        </record>
-    </data>
-</odoo>
