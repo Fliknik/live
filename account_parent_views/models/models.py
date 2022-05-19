@@ -30,7 +30,7 @@ class AccountTypeOthers(models.Model):
 class AccountParentView(models.Model):
     _inherit = "account.account"
 
-    account = fields.Many2one('account.account',string="Account" ,domain="[('user_type_id','=','View')]")
+    account = fields.Many2one('account.account',string="Parent Account" ,domain="[('user_type_id','=','View')]")
 
 
 class AccountMoveTypeView(models.Model):
