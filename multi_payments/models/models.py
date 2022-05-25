@@ -180,6 +180,7 @@ class JouenalEntryLinePayExt(models.Model):
     _inherit = 'account.move.line'
 
     payments_tree_label = fields.Char("Payments Tree Label")
+    # amount_currency_total = fields.Float("Total")
 
 
     def set_jes_payments_links(self):
