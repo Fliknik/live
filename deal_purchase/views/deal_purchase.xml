@@ -5,6 +5,7 @@
             <field name="model">deal.purchase</field>
             <field name="arch" type="xml">
                 <tree>
+                    <field name="ref"/>
                     <field name="vendor_id"/>
                     <field name="date"/>
                     <field name="vendor_reference"/>
