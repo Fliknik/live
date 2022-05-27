@@ -74,8 +74,8 @@ class DealLines(models.Model):
     @api.depends('product_id')
     def _compute_received_quantity(self):
         for rec in self:
-            result = self.env['deal.purchase'].browse(self.env.context.get('active_ids'))
-            print(result)
+            # result = self.env['deal.purchase'].browse(self.env.context.get('active_ids'))
+            # print(result)
             record = self.env['stock.picking'].search([('deal_id', '=', rec.deal_id.id)])
             print(record)
             r = 0
