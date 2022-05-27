@@ -71,7 +71,7 @@ class DealLines(models.Model):
         for rec in self:
             rec.sub_total = rec.qty * rec.unit_price
 
-    @api.depends('received_qty')
+    @api.depends('product_id')
     def _compute_received_quantity(self):
         for rec in self:
             result = self.env['deal.purchase'].browse(self.env.context.get('active_ids'))

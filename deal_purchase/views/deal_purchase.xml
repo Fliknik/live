@@ -9,6 +9,7 @@
                     <field name="vendor_id"/>
                     <field name="date"/>
                     <field name="vendor_reference"/>
+                    <field name="state"/>
                 </tree>
             </field>
         </record>
