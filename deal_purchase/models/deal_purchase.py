@@ -89,7 +89,7 @@ class DealLines(models.Model):
             # result = self.env['deal.purchase'].browse(self.env.context.get('active_ids'))
             # print(result)
             record = self.env['stock.picking'].search([('deal_id', '=', rec.deal_id.id)])
-            print(record)
+            # print(record)
             r = 0
             for l in record.move_ids_without_package:
                 # if l.product_id.id == rec.product_id.id:
@@ -106,4 +106,7 @@ class SaleOrder(models.Model):
 class StockPickingField(models.Model):
     _inherit = "stock.picking"
 
-    deal_id = fields.Many2one('deal.purchase', string='Deals')
+    deal_id = fields.Many2one('deal.purchase', string='Deals'  ,related="purchase_ids.deal_id",readonly=True)
+
+
+
