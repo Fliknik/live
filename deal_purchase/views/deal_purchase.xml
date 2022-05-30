@@ -20,8 +20,8 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <button id="button_recieved_quantity" name="action_recieved_quantity" string="Recieved Quantity"
-                                class="btn-primary" type="object"/>
+<!--                        <button id="button_recieved_quantity" name="action_recieved_quantity" string="Recieved Quantity"-->
+<!--                                class="btn-primary" type="object"/>-->
                         <button id="button_confirm" name="action_confirm" string="Confirm"
                                 class="btn-primary" type="object"
                                 attrs="{'invisible':[('state','in',('confirm' , 'cancel'))]}"/>

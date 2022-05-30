@@ -53,17 +53,17 @@ class DealPurchase(models.Model):
                     'You cannot delete which is not in draft or cancelled state')
         return super(DealPurchase, self).unlink()
 
-    def action_recieved_quantity(self):
-        for rec in self:
-            # result = self.env['deal.purchase'].browse(self.env.context.get('active_ids'))
-            # print(result)
-            record = self.env['stock.picking'].search([('deal_id.ref', '=', rec.ref)])
-            print(record)
-            r = 0
-            for l in record.move_ids_without_package:
-                if l.product_id.id == rec.deal_lines_id.product_id.id:
-                    r = r + l.quantity_done
-            rec.deal_lines_id.received_qty = r
+    # def action_recieved_quantity(self):
+    #     for rec in self:
+    #         # result = self.env['deal.purchase'].browse(self.env.context.get('active_ids'))
+    #         # print(result)
+    #         record = self.env['stock.picking'].search([('deal_id.ref', '=', rec.ref)])
+    #         print(record)
+    #         r = 0
+    #         for l in record.move_ids_without_package:
+    #             if l.product_id.id == rec.deal_lines_id.product_id.id:
+    #                 r = r + l.quantity_done
+    #         rec.deal_lines_id.received_qty = r
 
 
 class DealLines(models.Model):
@@ -72,7 +72,7 @@ class DealLines(models.Model):
     product_id = fields.Many2one('product.template', string="Product")
     description = fields.Char('Description')
     qty = fields.Float('Quantity')
-    received_qty = fields.Float('Quantity Received')
+    received_qty = fields.Float('Quantity Received', compute="_compute_received_quantity")
     unit_price = fields.Float('Unit Price')
     sub_total = fields.Float('SubTotal', readonly=True)
 
@@ -83,19 +83,18 @@ class DealLines(models.Model):
         for rec in self:
             rec.sub_total = rec.qty * rec.unit_price
 
-    # , compute = "_compute_received_quantity"
-    # @api.depends('product_id')
-    # def _compute_received_quantity(self):
-    #     for rec in self:
-    #         # result = self.env['deal.purchase'].browse(self.env.context.get('active_ids'))
-    #         # print(result)
-    #         record = self.env['stock.picking'].search([('deal_id', '=', rec.deal_id.id)])
-    #         print(record)
-    #         r = 0
-    #         for l in record.move_ids_without_package:
-    #             if l.product_id.id == rec.product_id.id:
-    #                 r = r + l.quantity_done
-    #         rec.received_qty = r
+    @api.depends('product_id')
+    def _compute_received_quantity(self):
+        for rec in self:
+            # result = self.env['deal.purchase'].browse(self.env.context.get('active_ids'))
+            # print(result)
+            record = self.env['stock.picking'].search([('deal_id', '=', rec.deal_id.id)])
+            print(record)
+            r = 0
+            for l in record.move_ids_without_package:
+                # if l.product_id.id == rec.product_id.id:
+                r = r + l.quantity_done
+            rec.received_qty = r
 
 
 class SaleOrder(models.Model):
