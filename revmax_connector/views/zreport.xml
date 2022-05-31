@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model="ir.actions.act_window" id="z_report_action">
+            <field name="name">ZReport</field>
+            <field name="res_model">z.report</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.ui.view" id="z_report_tree_view">
+            <field name="name">z.report</field>
+            <field name="model">z.report</field>
+            <field name="arch" type="xml">
+                <tree string="Contracts">
+                    <field name="date"/>
+                    <field name="vat"/>
+                    <field name="bpnumber"/>
+                    <field name="tax_office"/>
+                    <field name="z_number"/>
+                    <field name="efd_serial"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="z_report_form_view">
+            <field name="name">z.report</field>
+            <field name="model">z.report</field>
+            <field name="arch" type="xml">
+                <form string="ZReport">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="date"/>
+                                <field name="vat"/>
+                                <field name="bpnumber"/>
+                                <field name="tax_office"/>
+                                <field name="z_number"/>
+                                <field name="efd_serial"/>
+                                <field name="registration_date"/>
+                                <field name="user"/>
+                                <field name="currency_id"/>
+                                <field name="dailytotal"/>
+                            </group>
+                            <group>
+                                <field name="gross"/>
+                                <field name="corrections"/>
+                                <field name="discounts"/>
+                                <field name="surcharges"/>
+                                <field name="ticketsvoid"/>
+                                <field name="ticketsvoidtotal"/>
+                                <field name="ticketsfiscal"/>
+                                <field name="ticketsnonfiscal"/>
+                                <field name="vatrate"/>
+                                <field name="netamount"/>
+                                <field name="taxamount"/>
+                            </group>
+                    </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <menuitem id="revmax_connector_root" name="Revmax"/>
+
+        <menuitem id="zreport_menu" parent="revmax_connector_root" name="ZReport" action="z_report_action"/>
+
+    </data>
+</odoo>

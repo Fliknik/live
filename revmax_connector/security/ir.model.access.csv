@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_z_report,z.report,model_z_report,base.group_user,1,1,1,1
+access_card_detail,card.detail,model_card_detail,base.group_user,1,1,1,1

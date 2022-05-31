@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model="ir.actions.act_window" id="card_detail_action">
+            <field name="name">Card Detail</field>
+            <field name="res_model">card.detail</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.ui.view" id="card_detail_tree_view">
+            <field name="name">Card Detail</field>
+            <field name="model">card.detail</field>
+            <field name="arch" type="xml">
+                <tree string="Contracts">
+                    <field name="companyName"/>
+                    <field name="vatNumber"/>
+                    <field name="registrationNumber"/>
+                    <field name="serialNumber"/>
+                    <field name="BPNumber"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="card_detail_form_view">
+            <field name="name">Card Detail</field>
+            <field name="model">card.detail</field>
+            <field name="arch" type="xml">
+                <form string="ZReport">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="companyName"/>
+                                <field name="addressLine1"/>
+                                <field name="addressLine2"/>
+                                <field name="addressLine3"/>
+                                <field name="vatNumber"/>
+                                <field name="registrationNumber"/>
+                                <field name="serialNumber"/>
+                                <field name="BPNumber"/>
+                            </group>
+                    </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <menuitem id="card_detail_menu" parent="revmax_connector_root" sequence="2" name="Card Detail" action="card_detail_action"/>
+
+    </data>
+</odoo>
