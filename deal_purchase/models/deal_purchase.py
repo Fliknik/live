@@ -53,18 +53,6 @@ class DealPurchase(models.Model):
                     'You cannot delete which is not in draft or cancelled state')
         return super(DealPurchase, self).unlink()
 
-    # def action_recieved_quantity(self):
-    #     for rec in self:
-    #         # result = self.env['deal.purchase'].browse(self.env.context.get('active_ids'))
-    #         # print(result)
-    #         record = self.env['stock.picking'].search([('deal_id.ref', '=', rec.ref)])
-    #         print(record)
-    #         r = 0
-    #         for l in record.move_ids_without_package:
-    #             if l.product_id.id == rec.deal_lines_id.product_id.id:
-    #                 r = r + l.quantity_done
-    #         rec.deal_lines_id.received_qty = r
-
 
 class DealLines(models.Model):
     _name = 'deal.lines'
@@ -86,27 +74,31 @@ class DealLines(models.Model):
     @api.depends('product_id')
     def _compute_received_quantity(self):
         for rec in self:
-            # result = self.env['deal.purchase'].browse(self.env.context.get('active_ids'))
-            # print(result)
-            record = self.env['stock.picking'].search([('deal_id', '=', rec.deal_id.id)])
-            # print(record)
+            record = self.env['stock.picking'].search([('deal_id', '=', rec.deal_id.ref)])
             r = 0
             for l in record.move_ids_without_package:
-                # if l.product_id.id == rec.product_id.id:
                 r = r + l.quantity_done
             rec.received_qty = r
 
 
-class SaleOrder(models.Model):
+class PurchaseOrderDeal(models.Model):
     _inherit = "purchase.order"
 
     deal_id = fields.Many2one('deal.purchase', string='Deals')
+
+    def button_confirm(self):
+        res = super(PurchaseOrderDeal, self).button_confirm()
+        for rec in self:
+            for pick_rec in rec.picking_ids:
+                pick_rec.write({
+                    'deal_id': rec.deal_id.ref
+                })
+        return res
 
 
 class StockPickingField(models.Model):
     _inherit = "stock.picking"
 
-    deal_id = fields.Many2one('deal.purchase', string='Deals')
-
+    deal_id = fields.Char(string='Deals', readonly=True)
 
 
