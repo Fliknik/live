@@ -77,7 +77,7 @@ class DealLines(models.Model):
             record = self.env['stock.picking'].search([('deal_id', '=', rec.deal_id.ref)])
             r = 0
             for l in record.move_ids_without_package:
-                r = r + l.quantity_done
+                r = r + l.qty_kg
             rec.received_qty = r
 
 
@@ -85,6 +85,8 @@ class PurchaseOrderDeal(models.Model):
     _inherit = "purchase.order"
 
     deal_id = fields.Many2one('deal.purchase', string='Deals')
+    # qty_kg = fields.Float(string='Qty Kgs')
+
 
     def button_confirm(self):
         res = super(PurchaseOrderDeal, self).button_confirm()
@@ -93,6 +95,11 @@ class PurchaseOrderDeal(models.Model):
                 pick_rec.write({
                     'deal_id': rec.deal_id.ref
                 })
+            for r in rec.order_line:
+                for i in pick_rec.move_ids_without_package:
+                    i.write({
+                        'qty_kg': r.qty_kg
+                    })
         return res
 
 
@@ -100,5 +107,19 @@ class StockPickingField(models.Model):
     _inherit = "stock.picking"
 
     deal_id = fields.Char(string='Deals', readonly=True)
+
+
+class PurchaseOrderLineQty(models.Model):
+    _inherit = "purchase.order.line"
+
+    qty_kg = fields.Float(string='Qty in Kgs')
+
+
+class StockMoveLineQty(models.Model):
+    _inherit = "stock.move"
+
+    qty_kg = fields.Float(string='Qty in Kgs')
+
+
 
 
