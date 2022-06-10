@@ -29,9 +29,6 @@
 <!--                <xpath expr="//field[@name='picking_type_id']" position="attributes">-->
 <!--                    <attribute name="domain">[('bag_consumption','=', True)]</attribute>-->
 <!--                </xpath>-->
-<!--&lt;!&ndash;                <xpath expr="//field[@name='location_dest_id']" position="attributes">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <attribute name="domain">[('name','=', picking_type_id)]</attribute>&ndash;&gt;-->
-<!--&lt;!&ndash;                </xpath>&ndash;&gt;-->
 <!--            </field>-->
 <!--        </record>-->
 
