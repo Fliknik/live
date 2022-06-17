@@ -7,15 +7,10 @@ class PurchaseOrderInherited(models.Model):
     _inherit = 'purchase.order'
 
     def consume_bags(self):
-        record = self.env['stock.picking.type'].search([('bag_consumption','=',True)])
-        print('---------------------------------------------')
-        for rec in record:
-            print(rec.name)
         return {
             'name': _('Transfers'),
-            # 'domain': [('picking_type_id', 'in', record.id)],
-            # 'domain': [('picking_type_id.bag_consumption', '=', True)],
-            'context': {'default_btn_record': True},
+            'context': {'default_btn_record': True,
+                        'default_purchase_order_id': self.id},
             'view_type': 'form',
             'res_model': 'stock.picking',
             'view_id': False,
@@ -27,15 +22,14 @@ class PurchaseOrderInherited(models.Model):
 
     def get_consumption_counter(self):
         for rec in self:
-            count = self.env['stock.picking'].search_count([('btn_record', '=', True)])
+            count = self.env['stock.picking'].search_count(
+                ['&', ('btn_record', '=', True), ('purchase_order_id.id', '=', self.id)])
             rec.cb_counter = count
 
     def get_consumptions(self):
-        # records = self.env['stock.picking'].search([()])
         return {
             'name': _('Transfers'),
-            'domain': [('btn_record', '=', True)],
-            'context': {'default_btn_record': True},
+            'domain': ['&', ('btn_record', '=', True), ('purchase_order_id.id', '=', self.id)],
             'view_type': 'form',
             'res_model': 'stock.picking',
             'view_id': False,
@@ -52,5 +46,5 @@ class StockPickingTypes(models.Model):
 class StockPickingInherited(models.Model):
     _inherit = 'stock.picking'
 
-    # purchase_id = fields.Many2one('purchase.order')
+    purchase_order_id = fields.Many2one('purchase.order')
     btn_record = fields.Boolean(default=False)
