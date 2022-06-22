@@ -15,7 +15,6 @@ class Integration(models.TransientModel):
     def set_values(self):
         res = super(Integration, self).set_values()
         self.env['ir.config_parameter'].set_param('revmax_connector.revmax_port_number', self.revmax_port_number)
-
         return res
 
     @api.model
@@ -23,7 +22,6 @@ class Integration(models.TransientModel):
         res = super(Integration, self).get_values()
         icpsudo = self.env['ir.config_parameter'].sudo()
         revmax_port_number = icpsudo.get_param('revmax_connector.revmax_port_number')
-
         res.update(
             revmax_port_number=revmax_port_number
         )
@@ -138,4 +136,3 @@ class Integration(models.TransientModel):
                     })
         except Exception as e:
             raise ValidationError(str(e))
-

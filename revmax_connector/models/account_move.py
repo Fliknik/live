@@ -1,5 +1,5 @@
-from odoo import _, api, fields, models, modules, SUPERUSER_ID, tools
-from odoo.exceptions import ValidationError, UserError
+from odoo import fields, models, modules, SUPERUSER_ID, tools
+from odoo.exceptions import ValidationError
 import requests
 import json
 from lxml import etree
@@ -14,7 +14,6 @@ class InheritAM(models.Model):
         try:
             icpsudo = self.env['ir.config_parameter'].sudo()
             revmax_port_number = icpsudo.get_param('revmax_connector.revmax_port_number')
-
             url = "http://revmax.local:{}/transactm/transactm".format(revmax_port_number)
             payload = {
                 "Currency": self.currency_id.name,
@@ -33,7 +32,6 @@ class InheritAM(models.Model):
                 "ItemsXml": str(self.getItems()),
                 "CurrenciesXml": str(self.getCurrency())
             }
-
             headers = {
                 'content-type': "application/json",
                 'cache-control': "no-cache",
@@ -53,7 +51,6 @@ class InheritAM(models.Model):
         city = self.partner_id.city if self.partner_id.city else ''
         state = self.partner_id.state_id.name if self.partner_id.state_id else ''
         country = self.partner_id.country_id.name if self.partner_id.country_id else ''
-
         return ' '.join([street, street2, city, state, country])
 
     def getItems(self):
@@ -73,7 +70,6 @@ class InheritAM(models.Model):
             etree.SubElement(ITEM, "AMT").text = str(item.price_total)
             etree.SubElement(ITEM, "TAX").text = tax
             etree.SubElement(ITEM, "TAXR").text = taxrate
-
         tree = etree.tostring(ITEMS, pretty_print=True)
         return tree.decode()
 
@@ -83,7 +79,6 @@ class InheritAM(models.Model):
         etree.SubElement(currency, "Name").text = self.currency_id.name
         etree.SubElement(currency, "Amount").text = str(self.amount_total)
         etree.SubElement(currency, "Rate").text = str(self.currency_id.rate)
-
         tree = etree.tostring(currencyRoot, pretty_print=True)
         return tree.decode()
 
@@ -92,7 +87,5 @@ class InheritAM(models.Model):
         rate = 0
         for tax in taxes:
             rate += tax.amount
-
         totalTax = item.price_subtotal * (rate/100)
-
         return str(totalTax), str(rate)

@@ -36,4 +36,9 @@
     'demo': [
         'demo/demo.xml',
     ],
+    'external_dependencies': {
+
+    'python' : ['xmltodict'],
+
+},
 }
