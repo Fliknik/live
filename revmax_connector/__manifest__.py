@@ -36,7 +36,4 @@
     'demo': [
         'demo/demo.xml',
     ],
-   
-
-},
 }
