@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api, _
-from odoo.exceptions import Warning
+from odoo.exceptions import Warning, UserError
 from odoo.exceptions import ValidationError
 import datetime
 
@@ -170,7 +170,7 @@ class GeneralExpTree(models.Model):
 
     date = fields.Date(string="Date", required = True ,default=fields.Date.context_today) 
     descrip = fields.Char(string="Description", track_visibility='onchange')
-    expense_type = fields.Many2one('account.account',string="Expense Account" )
+    expense_type = fields.Many2one('account.account',string="Expense Account", domain="[('id', 'in', account_ids)]" )
     amount = fields.Float(string="Amount", required='True')
     descrip = fields.Char(string="Description")
     partner_id = fields.Many2one('res.partner',string="Partner", track_visibility='onchange')
@@ -184,6 +184,12 @@ class GeneralExpTree(models.Model):
         ('draft', 'Draft'),
         ('validate', 'Validate'),
         ],default='draft', track_visibility='onchange', related='link.state')
+
+    account_ids = fields.Many2many('account.account', compute='_compute_account_ids')
+
+    @api.depends('expense_type')
+    def _compute_account_ids(self):
+        self.account_ids = self.env['account.account'].search([('user_type_id', '!=', 'View')])
 
 
 
@@ -298,7 +304,7 @@ class Payments(models.Model):
 
     cheque_no = fields.Char(string="Cheque Number")
     # balance_aml = fields.Float(string="Balance", compute='compute_total_balance')
-    # available_partner_bank_ids = fields.Many2many('res.bank', string='Available Partner Bank Ids',compute='_compute_available_partner_bank_ids')
+    # available_partner_bank_ids = fields.Many2many('res.bank', string='Available Partner Bank Ids')
 
     # def compute_total_balance(self):
     #     total = self.env['account.move.line'].search([('partner_id', '=', self.partner_id.id)])
@@ -323,27 +329,49 @@ class Payments(models.Model):
     #     # res = super(Payments, self).create(vals)
     #     return res
 
-    # @api.depends('partner_id', 'company_id', 'payment_type')
-    # def _compute_available_partner_bank_ids(self):
-    #     for pay in self:
-    #         res_partner_bank_id = self.env['res.bank'].search([], limit=1)[0]
-    #         if pay.payment_type == 'inbound':
-    #             pay.available_partner_bank_ids = res_partner_bank_id  # pay.journal_id.bank_account_id
-    #         else:
-    #             pay.available_partner_bank_ids = res_partner_bank_id
-    #
-    #     pay.partner_id.bank_ids \
-    #         .filtered(lambda x: x.company_id.id in (False, pay.company_id.id))._origin
-    #
-    #
-    # @api.depends('available_partner_bank_ids', 'journal_id')
-    # def _compute_partner_bank_id(self):
-    #     ''' The default partner_bank_id will be the first available on the partner. '''
-    #
-    #     for pay in self:
-    #         res_partner_bank_id = self.env['res.partner.bank'].search([], limit=1)[0]
-    #         #             if pay.partner_bank_id not in pay.available_partner_bank_ids._origin:
-    #         pay.partner_bank_id = res_partner_bank_id
-    #
-    #     for pay in self:
-    #         pay.partner_bank_id = pay.available_partner_bank_ids[:1]._origin
+
+class JournalEntry(models.Model):
+    _inherit = 'account.move'
+
+    @api.model
+    def _get_default_journal(self):
+        ''' Get the default journal.
+        It could either be passed through the context using the 'default_journal_id' key containing its id,
+        either be determined by the default type.
+        '''
+        move_type = self._context.get('default_move_type', 'entry')
+        if move_type in self.get_sale_types(include_receipts=True):
+            journal_types = ['sale']
+        elif move_type in self.get_purchase_types(include_receipts=True):
+            journal_types = ['purchase']
+        else:
+            journal_types = self._context.get('default_move_journal_types', ['general'])
+
+        if self._context.get('default_journal_id'):
+            journal = self.env['account.journal'].browse(self._context['default_journal_id'])
+
+            if move_type != 'entry' and journal.type not in journal_types:
+                raise UserError(_(
+                    "Cannot create an invoice of type %(move_type)s with a journal having %(journal_type)s as type.",
+                    move_type=move_type,
+                    journal_type=journal.type,
+                ))
+        else:
+            journal = self._search_default_journal(journal_types)
+
+        return journal
+
+    journal_id = fields.Many2one('account.journal', string='Journal', required=True, readonly=True,
+                                 states={'draft': [('readonly', False)]},
+                                 check_company=True, domain="[('id', 'in', suitable_journal_ids)]",
+                                 default=_get_default_journal)
+
+    suitable_journal_ids = fields.Many2many('account.journal', compute='_compute_suitable_journal_ids')
+
+    @api.depends('company_id', 'invoice_filter_type_domain')
+    def _compute_suitable_journal_ids(self):
+        for m in self:
+            # journal_type = m.invoice_filter_type_domain or 'general'
+            # company_id = m.company_id.id or self.env.company.id
+            # domain = [('company_id', '=', company_id), ('type', '=', journal_type)]
+            m.suitable_journal_ids = self.env['account.journal'].search([])
