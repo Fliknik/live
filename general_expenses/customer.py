@@ -298,7 +298,7 @@ class Payments(models.Model):
 
     cheque_no = fields.Char(string="Cheque Number")
     # balance_aml = fields.Float(string="Balance", compute='compute_total_balance')
-    available_partner_bank_ids = fields.Many2many('res.bank', string='Available Partner Bank Ids')
+    # available_partner_bank_ids = fields.Many2many('res.bank', string='Available Partner Bank Ids',compute='_compute_available_partner_bank_ids')
 
     # def compute_total_balance(self):
     #     total = self.env['account.move.line'].search([('partner_id', '=', self.partner_id.id)])
@@ -322,3 +322,28 @@ class Payments(models.Model):
     #         raise ValidationError(_('Cheque Number Already Exists'))
     #     # res = super(Payments, self).create(vals)
     #     return res
+
+    # @api.depends('partner_id', 'company_id', 'payment_type')
+    # def _compute_available_partner_bank_ids(self):
+    #     for pay in self:
+    #         res_partner_bank_id = self.env['res.bank'].search([], limit=1)[0]
+    #         if pay.payment_type == 'inbound':
+    #             pay.available_partner_bank_ids = res_partner_bank_id  # pay.journal_id.bank_account_id
+    #         else:
+    #             pay.available_partner_bank_ids = res_partner_bank_id
+    #
+    #     pay.partner_id.bank_ids \
+    #         .filtered(lambda x: x.company_id.id in (False, pay.company_id.id))._origin
+    #
+    #
+    # @api.depends('available_partner_bank_ids', 'journal_id')
+    # def _compute_partner_bank_id(self):
+    #     ''' The default partner_bank_id will be the first available on the partner. '''
+    #
+    #     for pay in self:
+    #         res_partner_bank_id = self.env['res.partner.bank'].search([], limit=1)[0]
+    #         #             if pay.partner_bank_id not in pay.available_partner_bank_ids._origin:
+    #         pay.partner_bank_id = res_partner_bank_id
+    #
+    #     for pay in self:
+    #         pay.partner_bank_id = pay.available_partner_bank_ids[:1]._origin
