@@ -167,10 +167,8 @@ class MulticurrencyPartnerLedgerReport(models.AbstractModel):
         
         date_from = data['form']['date_from']
         date_to = data['form']['date_to']
-        
-        
+
         initial_check = data['form']['initial_bal']
-             
             
         if data['form']['partner_ids']:
             partner_rec = self.env['res.partner'].search([('id','in',data['form']['partner_ids'])])
@@ -198,9 +196,7 @@ class MulticurrencyPartnerLedgerReport(models.AbstractModel):
             partner_total_othcredit=0.0
             partner_total_othbalance=0.0
             
-            
             total_val['partner']= partnerss
-            
             
             for crncy in currencies:
                 if initial_check == True:
@@ -238,8 +234,8 @@ class MulticurrencyPartnerLedgerReport(models.AbstractModel):
             partner_total.append(total_val)
         print(partner_total)    
         print(initial_bal_list)
-        sale_obj=self.env['sale.order'].search([])[0]
-        subtype_id = self.env['mail.message.subtype'].search([('name','=','Discussions')])
+        # sale_obj=self.env['sale.order'].search([])[0]
+        # subtype_id = self.env['mail.message.subtype'].search([('name','=','Discussions')])
 #         message_obj = self.env['mail.message'].create({  'subject': 'django framework',
 #                         'body': f'comment message from backend python',
 #                         # 'attachment_ids': [[6, 0, self.attatchments_whatsap.ids]],
