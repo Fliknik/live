@@ -35,7 +35,9 @@ class Integration(models.TransientModel):
                 'content-type': "application/json",
                 'cache-control': "no-cache",
             }
-            url = "http://revmax.local:{}/zreport/zreport".format(revmax_port_number)
+            # url = "http://revmax.local:{}/zreport/zreport".format(revmax_port_number)
+            url = "http://45.32.128.52:{}/zreport/zreport".format(revmax_port_number)
+
             response = requests.request("GET", url, headers=headers)
             if response.status_code == 200:
                 data = json.loads(response.text)['response']
@@ -107,7 +109,9 @@ class Integration(models.TransientModel):
                 'content-type': "application/json",
                 'cache-control': "no-cache",
             }
-            url = "http://revmax.local:{}/card/getcarddetails".format(revmax_port_number)
+            # url = "http://revmax.local:{}/card/getcarddetails".format(revmax_port_number)
+            url = "http://45.32.128.52:{}/card/getcarddetails".format(revmax_port_number)
+
             response = requests.request("GET", url, headers=headers)
             if response.status_code == 200:
                 data = json.loads(response.text)['response']
