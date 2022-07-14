@@ -15,7 +15,7 @@ class InheritAM(models.Model):
             icpsudo = self.env['ir.config_parameter'].sudo()
             revmax_port_number = icpsudo.get_param('revmax_connector.revmax_port_number')
             # url = "http://revmax.local:{}/transactm/transactm".format(revmax_port_number)
-            url = "http://localhost:{}/transactm/transactm".format(revmax_port_number)
+            url = "http://45.32.128.52:{}/transactm/transactm".format(revmax_port_number)
             payload = {
                 "Currency": self.currency_id.name,
                 "BranchName": self.company_id.name,
