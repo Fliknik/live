@@ -27,5 +27,5 @@
         # 'security/ir.model.access.csv',
         'views/views.xml',
     ],
-
+    'qweb': ['static/src/xml/pos_reciept.xml'],
 }
