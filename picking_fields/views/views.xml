@@ -7,7 +7,7 @@
       <field name="inherit_id" ref="stock.view_picking_form"/>
       <field name="arch" type="xml">
 
-        <xpath expr="//field[@name='picking_type_id']" position="after">
+        <xpath expr="//field[@name='backorder_id']" position="after">
           <field name="grv_no"/>
           <field name="invoice_no"/>
           <field name="delivery_note"/>
