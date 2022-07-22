@@ -3,6 +3,12 @@
 from odoo import models, fields, api
 
 
+class UomUomInh(models.Model):
+    _inherit = 'uom.uom'
+
+    company_id = fields.Many2one('res.company')
+
+
 class AccountMoveInh(models.Model):
     _inherit = 'account.move'
 

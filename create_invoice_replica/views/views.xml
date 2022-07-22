@@ -1,6 +1,17 @@
 <odoo>
     <data>
 
+        <record id="view_uom_form_inh" model="ir.ui.view">
+            <field name="name">uom.uom.form.inh</field>
+            <field name="model">uom.uom</field>
+            <field name="inherit_id" ref="uom.product_uom_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='rounding']" position="after">
+                    <field name="company_id"/>
+                </xpath>
+            </field>
+        </record>
+
         <record id="view_account_move_form_inh" model="ir.ui.view">
             <field name="name">account.move.form.inh</field>
             <field name="model">account.move</field>
