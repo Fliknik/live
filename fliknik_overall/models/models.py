@@ -22,6 +22,28 @@ from odoo.tools.misc import format_date, OrderedSet
 #     def _set_next_sequence(self):
 #         pass
 
+# class MOveInh(models.Model):
+#     _inherit = 'mrp.production'
+#
+#     @api.model
+#     def _get_default_location_dest_id(self):
+#         location = False
+#         company_id = self.env.context.get('default_company_id', self.env.company.id)
+#         if self._context.get('default_picking_type_id'):
+#             location = self.env['stock.picking.type'].browse(
+#                 self.env.context['default_picking_type_id']).default_location_dest_id
+#         if not location:
+#             location = self.env['stock.warehouse'].search([('company_id', '=', company_id)], limit=1).lot_stock_id
+#         return  False
+#
+#     location_dest_id = fields.Many2one(
+#             'stock.location', 'Finished Products Location',
+#             default=_get_default_location_dest_id,
+#             readonly=True, required=True,
+#             domain="[('usage','=','internal'), '|', ('company_id', '=', False), ('company_id', '=', company_id)]",
+#             states={'draft': [('readonly', False)]}, check_company=True,
+#             help="Location where the system will stock the finished products.")
+
 
 class BomLineInh(models.Model):
     _inherit = 'mrp.bom.line'
